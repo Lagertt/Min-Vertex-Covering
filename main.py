@@ -28,28 +28,29 @@ def generateGraph(n):
   return graph
 
 # Полный перебор
-def fullSearchAlg(n, graph):
-  def is_vertex_cover(graph, vertices):
-    for i in range(n):
-      for j in range(n):
-        if graph[i][j] == 1 and i not in vertices and j not in vertices:
-          return False
-    return True
+def fullSearchAlg(n, graph): # 1 + 1 + 2^n * (1 + n * (2 + 1 * 0,5) + 2n^3 + 5n^2 + 4 + 3 * 0,5) + 3 = 2^n*2n^3 + 5*2^n*n^2 + 2,5*2^n*n + 6,5*2^n* + 5 (худший);
+                             # 1 + 1 + 2^n * (1 + n * (2 + 1 * 0,5) + 2n + 9 + 3 * 0,5) + 3 = 4,5*2^n*n + 11,5*2^n + 5 (лучший);
+  def is_vertex_cover(graph, vertices): # n * ( n * (5 + 2 * n) ) + 1 = 2n^3 + 5n^2 + 1 (худший); # 5 + 2 * n + 1 = 2n + 6 (лучший)
+    for i in range(n): # n
+      for j in range(n): # n
+        if graph[i][j] == 1 and i not in vertices and j not in vertices: # 5 + 2 * n
+          return False # 1
+    return True # 1
 
-  result = []
-  min_size = n
+  result = [] # 1
+  min_size = n # 1
 
-  for i in range(2 ** n):
-    vertex_set = []
-    for j in range(n):
-      if i & (1 << j):
-        vertex_set.append(j)
+  for i in range(2 ** n): # 2^n
+    vertex_set = [] # 1
+    for j in range(n): # n
+      if i & (1 << j): # 2
+        vertex_set.append(j) # 1
 
-    if is_vertex_cover(graph, vertex_set) and len(vertex_set) < min_size:
-      result = vertex_set
-      min_size = len(vertex_set)
+    if is_vertex_cover(graph, vertex_set) and len(vertex_set) < min_size: # 2n^3 + 5n^2 + 1 + 3 = 2n^3 + 5n^2 + 4 (худший); # 2n + 6 + 3 = 2n + 9 (лучший)
+      result = vertex_set # 1
+      min_size = len(vertex_set) # 2
 
-  return len(result), result 
+  return len(result), result # 3
 
 # Жадный алгоритм
 def greedyAlg(n, graph):
@@ -80,24 +81,24 @@ def greedyAlg(n, graph):
   return len(result), result 
 
 #Приближенный алгоритм
-def approxAlg(n, graph):  
-  result = set()  # Множество вершин покрытия
+def approxAlg(n, graph): 
+  result = set()  # 1
     
-  while any(any(x == 1 for x in row) for row in graph):
-    u, v = random.sample(range(n), 2)
+  while any(any(x == 1 for x in row) for row in graph): # n^2
+    u, v = random.sample(range(n), 2) # 2
 
-    result.add(u)
-    result.add(v)
+    result.add(u) # 1
+    result.add(v) # 1
 
-    for i in range(n):
-      if graph[u][i] == 1:
-        graph[u][i] = 0
-        graph[i][u] = 0
-      if graph[v][i] == 1:
-        graph[v][i] = 0
-        graph[i][v] = 0
+    for i in range(n): # n
+      if graph[u][i] == 1: # 1
+        graph[u][i] = 0 # 1
+        graph[i][u] = 0 # 1
+      if graph[v][i] == 1: # 1
+        graph[v][i] = 0 # 1
+        graph[i][v] = 0 # 1
 
-  return len(result), list(result)
+  return len(result), list(result) # 3
 
 
 if __name__ == "__main__":
