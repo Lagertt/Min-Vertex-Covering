@@ -30,6 +30,29 @@ def greedyAlg(n, graph):
 
   return len(result), result # возвращаем результат
 
+#Приближенный алгоритм
+def approxVertexCover(n, graph):
+    result = []  # список для хранения вершинного покрытия
+    while any(any(x == 1 for x in row) for row in graph):  # пока в графе есть непокрытые ребра
+        edge_found = False
+        # Шаг 1: Выбрать произвольное ребро
+        for i in range(n):
+            for j in range(n):
+                if graph[i][j] == 1:
+                    edge_found = True
+                    # Шаг 2: Добавить к результату оба конца этого ребра
+                    result.append(i)
+                    result.append(j)
+                    # Шаг 3: Удалить все ребра, инцидентные этим вершинам
+                    for k in range(n):
+                        graph[i][k] = 0
+                        graph[k][i] = 0
+                        graph[j][k] = 0
+                        graph[k][j] = 0
+                    break  # Перейти к следующей итерации
+        if not edge_found:
+            break  # Если не найдено ребро, выходим из цикла
+return len(set(result)), list(set(result))  # возвращаем результат
 
 
 n = [5, 5, 6, 8, 10] # количество вершин в графе
