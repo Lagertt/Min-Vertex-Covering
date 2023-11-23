@@ -31,7 +31,7 @@ def greedyAlg(n, graph):
   return len(result), result # возвращаем результат
 
 #Приближенный алгоритм
-def approxVertexCover(n, graph):
+def approxAlg(n, graph):
     result = []  # список для хранения вершинного покрытия
     while any(any(x == 1 for x in row) for row in graph):  # пока в графе есть непокрытые ребра
         edge_found = False
