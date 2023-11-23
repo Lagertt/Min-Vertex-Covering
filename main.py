@@ -31,8 +31,6 @@ def find_vertex_cover(n, graph):
     min_vertex_cover_size = float('inf')
     min_vertex_cover = []
 
-    start_time1 = time.process_time()  # Засекаем процессорное время начала выполнения
-
     for i in range(2**n):
         current_vertex_cover = []
         for j in range(n):
@@ -49,14 +47,10 @@ def find_vertex_cover(n, graph):
             min_vertex_cover_size = len(current_vertex_cover)
             min_vertex_cover = current_vertex_cover
 
-    end_time1 = time.process_time()  # Засекаем процессорное время окончания выполнения
-    execution_time = end_time1 - start_time1
-
-    return min_vertex_cover_size, min_vertex_cover, execution_time
+    return min_vertex_cover_size, min_vertex_cover
 
 # Приближенный алгоритм
-def approxAlg(n, graph):
-    start_time2 = time.process_time()  # Засекаем процессорное время начала выполнения
+def approxAlg(n, graph):    
     result = []  # список для хранения вершинного покрытия
     graph_matrix = [[0] * n for _ in range(n)]  # Создаем нулевую матрицу смежности
 
@@ -84,13 +78,10 @@ def approxAlg(n, graph):
         if not edge_found:
             break  # Если не найдено ребро, выходим из цикла
 
-    end_time2 = time.process_time()  # Засекаем процессорное время окончания выполнения
-    execution_time_approx = end_time2 - start_time2
-    return len(set(result)), list(set(result)), execution_time_approx # возвращаем результат
+    return len(set(result)), list(set(result)) # возвращаем результат
 
 # Жадный алгоритм
 def greedyAlg(n, graph):
-    start_time3 = time.process_time()  # Засекаем процессорное время начала выполнения
     result = []  # список для хранения вершинного покрытия
     graph_matrix = [[0] * n for _ in range(n)]  # Создаем нулевую матрицу смежности
 
@@ -112,7 +103,7 @@ def greedyAlg(n, graph):
                 max_vertex = i  # обновляем значение вершины с максимальной степенью
 
         if max_vertex is None:  # если не удалось найти вершину с максимальной степенью
-            end_time3 = time.process_time()  # Засекаем процессорное время окончания выполнения
+            end_time3 = time.time()  # Засекаем процессорное время окончания выполнения
             execution_time_greedy = end_time3\
                              - start_time3
             return len(result), result, execution_time_greedy # возвращаем текущий результат
@@ -124,9 +115,7 @@ def greedyAlg(n, graph):
                 graph_matrix[max_vertex][i] = 0  # удаляем это ребро из графа
                 graph_matrix[i][max_vertex] = 0  # удаляем это ребро из графа (граф неориентированный)
 
-    end_time4 = time.process_time()  # Засекаем процессорное время окончания выполнения
-    execution_time_greedy = end_time4 - start_time3
-    return len(result), result, execution_time_greedy # возвращаем результат
+    return len(result), result # возвращаем результат
 
 if __name__ == "__main__":
     choice = input("Источник ввода (1.file/2.random): ").lower()
@@ -139,22 +128,28 @@ if __name__ == "__main__":
         n, graph = generate_random_graph(n)
 
     # Результаты метода полного перебора
-    result_size, result_vertex_cover, execution_time = find_vertex_cover(n, graph)
+    start_time = time.time()  # Засекаем процессорное время начала выполнения
+    result_size, result_vertex_cover = find_vertex_cover(n, graph)
+    end_time = time.time()  # Засекаем процессорное время окончания выполнения
     print("\nМетод полного перебора:")
     print("Размер вершинного покрытия:", result_size)
     print("Вершины вершинного покрытия:", result_vertex_cover)
-    print("Время выполнения:", execution_time, "секунд")
+    print("Время выполнения:", end_time - start_time, "секунд")
 
     # Результаты приближенного алгоритма
-    result_size_approx, result_vertex_cover_approx, execution_time_approx = approxAlg(n, graph.copy())
+    start_time = time.time()  # Засекаем процессорное время начала выполнения
+    result_size_approx, result_vertex_cover_approx = approxAlg(n, graph.copy())
+    end_time = time.time()  # Засекаем процессорное время окончания выполнения
     print("\nПриближенный алгоритм:")
     print("Размер вершинного покрытия:", result_size_approx)
-    print("Вершины вершинного покрытия:", result_vertex_cover_approx)
-    print("Время выполнения:", execution_time_approx, "секунд")
+    # print("Вершины вершинного покрытия:", result_vertex_cover_approx)
+    print("Время выполнения:", end_time - start_time, "секунд")
 
     # Результаты жадного алгоритма
-    result_size_greedy, result_vertex_cover_greedy, execution_time_greedy = greedyAlg(n, graph.copy())
+    start_time3 = time.time()  # Засекаем процессорное время начала выполнения
+    result_size_greedy, result_vertex_cover_greedy = greedyAlg(n, graph.copy())
+    end_time3 = time.time()  # Засекаем процессорное время окончания выполнения
     print("\nЖадный алгоритм:")
     print("Размер вершинного покрытия:", result_size_greedy)
-    print("Вершины вершинного покрытия:", result_vertex_cover_greedy)
-    print("Время выполнения:", execution_time_greedy, "секунд")
+    # print("Вершины вершинного покрытия:", result_vertex_cover_greedy)
+    print("Время выполнения:", end_time - start_time, "секунд")

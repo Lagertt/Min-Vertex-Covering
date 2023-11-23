@@ -52,7 +52,7 @@ def approxAlg(n, graph):
                     break  # Перейти к следующей итерации
         if not edge_found:
             break  # Если не найдено ребро, выходим из цикла
-return len(set(result)), list(set(result))  # возвращаем результат
+    return len(set(result)), list(set(result))  # возвращаем результат
 
 
 n = [5, 5, 6, 8, 10] # количество вершин в графе
