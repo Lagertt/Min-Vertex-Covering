@@ -142,7 +142,7 @@ if __name__ == "__main__":
     end_time = time.time()  # Засекаем процессорное время окончания выполнения
     print("\nПриближенный алгоритм:")
     print("Размер вершинного покрытия:", result_size_approx)
-    # print("Вершины вершинного покрытия:", result_vertex_cover_approx)
+    print("Вершины вершинного покрытия:", result_vertex_cover_approx)
     print("Время выполнения:", end_time - start_time, "секунд")
 
     # Результаты жадного алгоритма
@@ -151,5 +151,5 @@ if __name__ == "__main__":
     end_time3 = time.time()  # Засекаем процессорное время окончания выполнения
     print("\nЖадный алгоритм:")
     print("Размер вершинного покрытия:", result_size_greedy)
-    # print("Вершины вершинного покрытия:", result_vertex_cover_greedy)
+    print("Вершины вершинного покрытия:", result_vertex_cover_greedy)
     print("Время выполнения:", end_time - start_time, "секунд")
